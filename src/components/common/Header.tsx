@@ -283,6 +283,64 @@ const Header: React.FC = () => {
         </div>
       </header>
 
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-white z-40 flex flex-col items-center justify-center p-8">
+          <nav className="flex flex-col items-center space-y-6 mb-8">
+            <NavLink to="/" className="text-xl font-medium text-neutral-700 hover:text-primary-500" onClick={toggleMenu}>{t("header_nav_home")}</NavLink>
+            
+            {/* Mobile Services Dropdown - Simplified for now, can be enhanced later */}
+            <div className="relative group">
+              <button onClick={(e) => { e.stopPropagation(); setIsServicesDropdownOpen(!isServicesDropdownOpen); }} className="text-xl font-medium text-neutral-700 hover:text-primary-500 flex items-center">
+                {t("header_nav_services")}
+                <ChevronDown size={20} className={`ml-1 transition-transform ${isServicesDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {isServicesDropdownOpen && (
+                <div className="mt-2 w-full bg-gray-50 rounded-lg shadow-lg py-2 text-center">
+                  <Link to="/services/primary-care" className="block px-4 py-2 text-neutral-700 hover:bg-primary-50 hover:text-primary-500" onClick={toggleMenu}>{t("header_services_dropdown_personal_care")}</Link>
+                  <Link to="/services/specialized-care" className="block px-4 py-2 text-neutral-700 hover:bg-primary-50 hover:text-primary-500" onClick={toggleMenu}>{t("header_services_dropdown_meal_preparation")}</Link>
+                  <Link to="/services/home-care" className="block px-4 py-2 text-neutral-700 hover:bg-primary-50 hover:text-primary-500" onClick={toggleMenu}>{t("header_services_dropdown_housekeeping")}</Link>
+                  <Link to="/services/preventive-care" className="block px-4 py-2 text-neutral-700 hover:bg-primary-50 hover:text-primary-500" onClick={toggleMenu}>{t("header_services_dropdown_health_support")}</Link>
+                  <Link to="/services/preventive-care" className="block px-4 py-2 text-neutral-700 hover:bg-primary-50 hover:text-primary-500" onClick={toggleMenu}>{t("header_services_dropdown_companionship")}</Link>
+                </div>
+              )}
+            </div>
+
+            <NavLink to="/blog" className="text-xl font-medium text-neutral-700 hover:text-primary-500" onClick={toggleMenu}>{t("header_nav_blog")}</NavLink>
+            <NavLink to="/about" className="text-xl font-medium text-neutral-700 hover:text-primary-500" onClick={toggleMenu}>{t("header_nav_about_us")}</NavLink>
+            <NavLink to="/contact" className="text-xl font-medium text-neutral-700 hover:text-primary-500" onClick={toggleMenu}>{t("header_nav_contact_us")}</NavLink>
+          </nav>
+
+          <div className="flex flex-col items-center space-y-6 w-full max-w-xs">
+             {/* Search Button in Mobile Menu */}
+            <button 
+              onClick={() => {
+                toggleMenu(); // Close menu
+                toggleSearch(); // Open search
+              }} 
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors"
+            >
+              <Search size={20} />
+              {t("header_mobile_search_button")} 
+            </button>
+
+            {/* Call Button in Mobile Menu */}
+            <a 
+              href="tel:9709007721" 
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-secondary-500 text-white rounded-lg font-medium hover:bg-secondary-600 transition-colors"
+            >
+              <Phone size={20} />
+              9709007721
+            </a>
+            
+            {/* Language Switcher in Mobile Menu */}
+            <div className="mt-auto pt-8"> {/* Pushes switcher to bottom if menu is flex-grow */}
+                <LanguageSwitcher i18n={i18n} isScrolled={true} /> {/* isScrolled true for consistent styling */}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 🔍 Professional Search Modal */}
       {isSearchOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4">
