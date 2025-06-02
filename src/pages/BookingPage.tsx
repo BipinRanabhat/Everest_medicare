@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarClock, Phone, MapPin, Mail, ArrowRight } from 'lucide-react';
 import BookingForm from '../components/booking/BookingForm';
+import { useTranslation } from 'react-i18next';
 
 const BookingPage: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <>
       {/* Booking Hero */}
@@ -16,7 +18,7 @@ const BookingPage: React.FC = () => {
           ></div>
           <img 
             src="https://images.pexels.com/photos/7089425/pexels-photo-7089425.jpeg?auto=compress&cs=tinysrgb&w=1600" 
-            alt="Medical appointment" 
+            alt={t('booking_hero_image_alt')} 
             className="w-full h-full object-cover"
           />
         </div>
@@ -24,10 +26,10 @@ const BookingPage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl text-white">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in">
-              Book Your Appointment
+              {t('booking_hero_title')}
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-neutral-100 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              Schedule a visit with our healthcare professionals easily and quickly
+              {t('booking_hero_subtitle')}
             </p>
           </div>
         </div>
@@ -50,7 +52,7 @@ const BookingPage: React.FC = () => {
             
             <div className="lg:col-span-1">
               <div className="bg-white p-6 rounded-xl shadow-lg">
-                <h2 className="text-2xl font-bold mb-6 text-neutral-800">Contact Information</h2>
+                <h2 className="text-2xl font-bold mb-6 text-neutral-800">{t('booking_contact_info_title')}</h2>
                 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
@@ -58,11 +60,11 @@ const BookingPage: React.FC = () => {
                       <Phone size={24} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg text-neutral-800 mb-1">Phone</h3>
+                      <h3 className="font-semibold text-lg text-neutral-800 mb-1">{t('booking_contact_phone_title')}</h3>
                       <a href="tel:+9779876543210" className="text-neutral-600 hover:text-primary-500 transition-colors">
                         +977 9876543210
                       </a>
-                      <p className="text-neutral-500 text-sm mt-1">Mon-Fri: 8:00 AM - 7:00 PM</p>
+                      <p className="text-neutral-500 text-sm mt-1">{t('booking_contact_phone_hours_weekdays')}</p>
                     </div>
                   </div>
                   
@@ -71,11 +73,11 @@ const BookingPage: React.FC = () => {
                       <Mail size={24} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg text-neutral-800 mb-1">Email</h3>
+                      <h3 className="font-semibold text-lg text-neutral-800 mb-1">{t('booking_contact_email_title')}</h3>
                       <a href="mailto:appointments@nepalcare.com" className="text-neutral-600 hover:text-primary-500 transition-colors">
                         appointments@nepalcare.com
                       </a>
-                      <p className="text-neutral-500 text-sm mt-1">We respond within 24 hours</p>
+                      <p className="text-neutral-500 text-sm mt-1">{t('booking_contact_email_response_time')}</p>
                     </div>
                   </div>
                   
@@ -84,9 +86,9 @@ const BookingPage: React.FC = () => {
                       <MapPin size={24} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg text-neutral-800 mb-1">Location</h3>
+                      <h3 className="font-semibold text-lg text-neutral-800 mb-1">{t('booking_contact_location_title')}</h3>
                       <p className="text-neutral-600">
-                        123 Durbar Marg, Kathmandu, Nepal
+                        {t('booking_contact_location_address')}
                       </p>
                       <a 
                         href="https://maps.google.com" 
@@ -94,7 +96,7 @@ const BookingPage: React.FC = () => {
                         rel="noopener noreferrer"
                         className="text-primary-500 hover:text-primary-600 text-sm font-medium inline-flex items-center mt-1"
                       >
-                        View on Map <ArrowRight size={12} className="ml-1" />
+                        {t('booking_contact_view_on_map_link')} <ArrowRight size={12} className="ml-1" />
                       </a>
                     </div>
                   </div>
@@ -104,41 +106,41 @@ const BookingPage: React.FC = () => {
                       <CalendarClock size={24} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg text-neutral-800 mb-1">Hours</h3>
+                      <h3 className="font-semibold text-lg text-neutral-800 mb-1">{t('booking_contact_hours_title')}</h3>
                       <ul className="text-neutral-600 space-y-1">
-                        <li>Monday - Friday: 8:00 AM - 7:00 PM</li>
-                        <li>Saturday: 9:00 AM - 5:00 PM</li>
-                        <li>Sunday: Closed</li>
+                        <li>{t('service_detail_hours_weekdays')}</li>
+                        <li>{t('service_detail_hours_saturday')}</li>
+                        <li>{t('service_detail_hours_sunday')}</li>
                       </ul>
                     </div>
                   </div>
                 </div>
                 
                 <div className="mt-8 pt-6 border-t border-neutral-200">
-                  <h3 className="font-semibold text-lg text-neutral-800 mb-4">Emergency Services</h3>
+                  <h3 className="font-semibold text-lg text-neutral-800 mb-4">{t('booking_emergency_services_title')}</h3>
                   <p className="text-neutral-600 mb-4">
-                    For medical emergencies, please call our 24/7 emergency line or visit our emergency department.
+                    {t('booking_emergency_services_message')}
                   </p>
                   <a 
                     href="tel:+9779876543211" 
                     className="flex items-center gap-2 py-3 px-4 bg-error-500 hover:bg-opacity-90 text-white rounded-md font-medium transition-colors w-full justify-center"
                   >
                     <Phone size={18} />
-                    Emergency: +977 9876543211
+                    {t('booking_emergency_call_button')}
                   </a>
                 </div>
               </div>
               
               <div className="bg-primary-50 p-6 rounded-xl mt-6">
-                <h3 className="font-semibold text-lg text-neutral-800 mb-3">Need More Information?</h3>
+                <h3 className="font-semibold text-lg text-neutral-800 mb-3">{t('booking_need_info_title')}</h3>
                 <p className="text-neutral-600 mb-4">
-                  If you have questions about our services or need assistance in choosing the right specialist, our team is here to help.
+                  {t('booking_need_info_message')}
                 </p>
                 <Link 
                   to="/contact" 
                   className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium"
                 >
-                  Contact Us <ArrowRight size={16} className="ml-1" />
+                  {t('booking_need_info_contact_link')} <ArrowRight size={16} className="ml-1" />
                 </Link>
               </div>
             </div>
@@ -150,39 +152,39 @@ const BookingPage: React.FC = () => {
       <section className="py-16 bg-neutral-50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-neutral-800">Frequently Asked Questions</h2>
+            <h2 className="text-3xl font-bold mb-4 text-neutral-800">{t('booking_faq_main_title')}</h2>
             <p className="max-w-2xl mx-auto text-neutral-600">
-              Find answers to common questions about our appointment booking process
+              {t('booking_faq_main_subtitle')}
             </p>
           </div>
           
           <div className="max-w-3xl mx-auto">
             <div className="space-y-4">
               <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-lg font-semibold mb-2 text-neutral-800">How far in advance should I book my appointment?</h3>
+                <h3 className="text-lg font-semibold mb-2 text-neutral-800">{t('booking_faq_q1')}</h3>
                 <p className="text-neutral-600">
-                  We recommend booking your appointment at least 3-5 days in advance for routine visits. For specialized care, booking 1-2 weeks ahead is advisable. However, we also accommodate urgent cases and same-day appointments when possible.
+                  {t('booking_faq_a1')}
                 </p>
               </div>
               
               <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-lg font-semibold mb-2 text-neutral-800">What should I bring to my appointment?</h3>
+                <h3 className="text-lg font-semibold mb-2 text-neutral-800">{t('booking_faq_q2')}</h3>
                 <p className="text-neutral-600">
-                  Please bring your identification, insurance information (if applicable), a list of current medications, and any relevant medical records or test results. If you're a new patient, arriving 15 minutes early to complete registration is helpful.
+                  {t('booking_faq_a2')}
                 </p>
               </div>
               
               <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-lg font-semibold mb-2 text-neutral-800">How can I reschedule or cancel my appointment?</h3>
+                <h3 className="text-lg font-semibold mb-2 text-neutral-800">{t('booking_faq_q3')}</h3>
                 <p className="text-neutral-600">
-                  You can reschedule or cancel your appointment by calling our reception at +977 9876543210 or by emailing appointments@nepalcare.com. We appreciate at least 24 hours' notice for cancellations to allow us to offer the slot to other patients.
+                  {t('booking_faq_a3')}
                 </p>
               </div>
               
               <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-lg font-semibold mb-2 text-neutral-800">Do you offer telemedicine appointments?</h3>
+                <h3 className="text-lg font-semibold mb-2 text-neutral-800">{t('booking_faq_q4')}</h3>
                 <p className="text-neutral-600">
-                  Yes, we offer telemedicine consultations for select services. You can book a virtual appointment through our online booking system or by calling our reception. Our staff will provide instructions on how to connect for your virtual visit.
+                  {t('booking_faq_a4')}
                 </p>
               </div>
             </div>

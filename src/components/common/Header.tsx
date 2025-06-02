@@ -120,58 +120,68 @@ const Header: React.FC = () => {
     }
   };
 
-  const handleSuggestionClick = (suggestionTitleKey: string) => {
+  const handleSuggestionClick = (suggestionTitleKey: string, pathOverride?: string) => {
     setIsSearchOpen(false);
-    const suggestionTitle = t(suggestionTitleKey); // Translate the key
-    let path: string;
+    const suggestionTitle = t(suggestionTitleKey); 
 
-    // Use the English variant of the title for switch cases if keys map to English titles
-    // Or, better, use the translation keys directly if they are consistent
-    switch (suggestionTitleKey) {
-      case "header_search_service_personal_care":
-        path = "/services/personal-care-assistance"; 
-        break;
-      case "header_search_service_meal_prep":
-        path = "/services/meal-preparation-services"; 
-        break;
-      case "header_search_service_housekeeping":
-        path = "/services/light-housekeeping"; 
-        break;
-      case "header_search_service_companionship":
-        path = "/services/companionship-services"; 
-        break;
-      case "header_search_link_about_care":
-        path = "/about";
-        break;
-      case "header_search_link_contact_info":
-        path = "/contact";
-        break;
-      case "header_search_service_health_support": 
-      case "header_search_link_service_areas": 
-      case "header_search_link_care_plans": 
-      default:
-        path = `/search?q=${encodeURIComponent(suggestionTitle)}`;
-        break;
+    let path: string;
+    if (pathOverride) {
+      path = pathOverride;
+    } else {
+      switch (suggestionTitleKey) {
+        case "header_search_service_personal_care_title":
+          path = "/services/personal-care-assistance"; 
+          break;
+        case "header_search_service_meal_prep_title":
+          path = "/services/meal-preparation-services"; 
+          break;
+        case "header_search_service_housekeeping_title":
+          path = "/services/light-housekeeping"; 
+          break;
+        case "header_search_service_health_support_title":
+          path = "/services/health-support"; // Corrected path
+          break;
+        case "header_search_service_companionship_title":
+          path = "/services/companionship-services"; 
+          break;
+        case "header_search_link_about_care_title":
+          path = "/about";
+          break;
+        case "header_search_link_contact_info_title":
+          path = "/contact";
+          break;
+        // For links that don't have specific pages, a general search is fine
+        case "header_search_link_service_areas_title": 
+        case "header_search_link_care_plans_title": 
+        default:
+          path = `/search?q=${encodeURIComponent(suggestionTitle)}`;
+          break;
+      }
     }
     navigate(path);
     setSearchQuery(""); 
   };
 
   const searchSuggestions = [
-    { titleKey: "header_search_service_personal_care", badgeKey: "header_search_badge_service" },
-    { titleKey: "header_search_service_meal_prep", badgeKey: "header_search_badge_service" },
-    { titleKey: "header_search_service_housekeeping", badgeKey: "header_search_badge_service" },
-    { titleKey: "header_search_service_health_support", badgeKey: "header_search_badge_service" },
-    { titleKey: "header_search_service_companionship", badgeKey: "header_search_badge_service" }
+    { titleKey: "header_search_service_personal_care_title", badgeKey: "header_search_badge_service_text", path: "/services/personal-care-assistance" },
+    { titleKey: "header_search_service_meal_prep_title", badgeKey: "header_search_badge_service_text", path: "/services/meal-preparation-services" },
+    { titleKey: "header_search_service_housekeeping_title", badgeKey: "header_search_badge_service_text", path: "/services/light-housekeeping" },
+    { titleKey: "header_search_service_health_support_title", badgeKey: "header_search_badge_service_text", path: "/services/health-support" },
+    { titleKey: "header_search_service_companionship_title", badgeKey: "header_search_badge_service_text", path: "/services/companionship-services" }
   ];
 
   const quickLinks = [
-    { titleKey: "header_search_link_about_care", typeKey: "header_search_badge_page" },
-    { titleKey: "header_search_link_contact_info", typeKey: "header_search_badge_contact" },
-    { titleKey: "header_search_link_service_areas", typeKey: "header_search_badge_info" },
-    { titleKey: "header_search_link_care_plans", typeKey: "header_search_badge_guide" }
+    { titleKey: "header_search_link_about_care_title", typeKey: "header_search_badge_page_text", path: "/about" },
+    { titleKey: "header_search_link_contact_info_title", typeKey: "header_search_badge_contact_text", path: "/contact" },
+    { titleKey: "header_search_link_service_areas_title", typeKey: "header_search_badge_info_text" }, // No specific path, will use default search
+    { titleKey: "header_search_link_care_plans_title", typeKey: "header_search_badge_guide_text" } // No specific path, will use default search
   ];
 
+  const filteredSuggestions = searchQuery
+    ? [...searchSuggestions, ...quickLinks].filter(suggestion =>
+        t(suggestion.titleKey).toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
 
   return (
     <>
@@ -254,7 +264,7 @@ const Header: React.FC = () => {
                   isActive
                     ? isScrolled ? "text-primary-500" : "text-white font-bold"
                     : isScrolled ? "text-neutral-700 hover:text-primary-500" : "text-white hover:text-neutral-200"
-                }`}>{t("header_nav_contact_us")}</NavLink>
+                }`}>{t("contact_us")}</NavLink>
 
               {/* Language Switcher */}
               <LanguageSwitcher i18n={i18n} isScrolled={isScrolled} />
@@ -308,7 +318,7 @@ const Header: React.FC = () => {
 
             <NavLink to="/blog" className="text-xl font-medium text-neutral-700 hover:text-primary-500" onClick={toggleMenu}>{t("header_nav_blog")}</NavLink>
             <NavLink to="/about" className="text-xl font-medium text-neutral-700 hover:text-primary-500" onClick={toggleMenu}>{t("header_nav_about_us")}</NavLink>
-            <NavLink to="/contact" className="text-xl font-medium text-neutral-700 hover:text-primary-500" onClick={toggleMenu}>{t("header_nav_contact_us")}</NavLink>
+            <NavLink to="/contact" className="text-xl font-medium text-neutral-700 hover:text-primary-500" onClick={toggleMenu}>{t("contact_us")}</NavLink>
           </nav>
 
           <div className="flex flex-col items-center space-y-6 w-full max-w-xs">
@@ -349,14 +359,14 @@ const Header: React.FC = () => {
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center gap-4">
                 <Search className="text-primary-500 flex-shrink-0" size={20} />
-                <form onSubmit={handleSearch} className="flex-1">
+                <form onSubmit={handleSearch} className="relative">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
                   <input
-                    type="text"
+                    type="search"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
                     placeholder={t("header_search_placeholder")}
-                    className="w-full text-lg text-gray-900 placeholder-gray-500 bg-transparent border-none outline-none"
+                    className="w-full py-3 pl-12 pr-4 bg-transparent border-b border-neutral-300 focus:outline-none focus:border-primary-500 text-neutral-800 placeholder-neutral-400 text-lg"
                     autoFocus
                   />
                 </form>
@@ -369,70 +379,81 @@ const Header: React.FC = () => {
               </div>
             </div>
 
-            {/* Search Suggestions */}
-            <div className="max-h-96 overflow-y-auto">
-              <div className="p-4">
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
-                  {t("header_search_popular_services")}
-                </div>
-                <div className="space-y-1">
-                  {searchSuggestions.map((service, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSuggestionClick(service.titleKey)}
-                      className="w-full flex items-center gap-3 p-3 text-left hover:bg-gray-50 rounded-lg transition-colors group"
-                    >
-                      <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center group-hover:bg-primary-200 transition-colors">
-                        <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-gray-900 font-medium">{t(service.titleKey)}</div>
-                      </div>
-                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">{t(service.badgeKey)}</span>
-                    </button>
+            {searchQuery && filteredSuggestions.length > 0 && (
+              <div className="mt-6 pr-2 max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
+                <ul className="space-y-2">
+                  {filteredSuggestions.map((suggestion, index) => (
+                    <li key={index}>
+                      <button 
+                        onClick={() => handleSuggestionClick(suggestion.titleKey, (suggestion as any).path)}
+                        className="w-full text-left p-3 hover:bg-primary-50 rounded-md transition-colors flex justify-between items-center group"
+                      >
+                        <span className="text-neutral-700 group-hover:text-primary-600">{t(suggestion.titleKey)}</span>
+                        <span className="text-xs bg-neutral-100 text-neutral-500 px-2 py-0.5 rounded-full group-hover:bg-primary-100 group-hover:text-primary-600">
+                          {t((suggestion as any).badgeKey || (suggestion as any).typeKey)}
+                        </span>
+                      </button>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
+            )}
 
-              <div className="p-4 border-t border-gray-100">
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
-                  {t("header_search_quick_links")}
+            {searchQuery && filteredSuggestions.length === 0 && (
+                <div className="mt-6 text-center text-neutral-500">
+                  {t('header_search_no_results_text', { query: searchQuery })}
                 </div>
-                <div className="space-y-1">
-                  {quickLinks.map((item, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSuggestionClick(item.titleKey)}
-                      className="w-full flex items-center gap-3 p-3 text-left hover:bg-gray-50 rounded-lg transition-colors group"
-                    >
-                      <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-                        <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-gray-900 font-medium">{t(item.titleKey)}</div>
-                      </div>
-                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">{t(item.typeKey)}</span>
-                    </button>
+            )}
+
+            {!searchQuery && (
+              <div className="mt-6 pr-2 max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
+                <h3 className="text-sm font-semibold text-neutral-500 mb-3 px-2">{t('header_search_popular_services_title')}</h3>
+                <ul className="space-y-1 mb-6">
+                  {searchSuggestions.map((suggestion, index) => (
+                    <li key={`popular-${index}`}>
+                      <button 
+                        onClick={() => handleSuggestionClick(suggestion.titleKey, suggestion.path)}
+                        className="w-full text-left p-3 hover:bg-primary-50 rounded-md transition-colors flex justify-between items-center group"
+                      >
+                        <span className="text-neutral-700 group-hover:text-primary-600">{t(suggestion.titleKey)}</span>
+                        <span className="text-xs bg-neutral-100 text-neutral-500 px-2 py-0.5 rounded-full group-hover:bg-primary-100 group-hover:text-primary-600">
+                          {t(suggestion.badgeKey)}
+                        </span>
+                      </button>
+                    </li>
                   ))}
-                </div>
-              </div>
+                </ul>
 
-              {/* Search Tips */}
-              <div className="p-4 bg-gray-50 border-t border-gray-100">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <kbd className="px-2 py-1 text-xs font-semibold text-gray-500 bg-white border border-gray-200 rounded">
-                    ⌘K
-                  </kbd>
-                  <span>{t("header_search_tip_search")}</span>
-                  <kbd className="px-2 py-1 text-xs font-semibold text-gray-500 bg-white border border-gray-200 rounded ml-4">
-                    ESC
-                  </kbd>
-                  <span>{t("header_search_tip_close")}</span>
-                </div>
+                <h3 className="text-sm font-semibold text-neutral-500 mb-3 px-2">{t('header_search_quick_links_title')}</h3>
+                <ul className="space-y-1">
+                  {quickLinks.map((link, index) => (
+                    <li key={`quick-${index}`}>
+                      <button
+                        onClick={() => handleSuggestionClick(link.titleKey, link.path)}
+                        className="w-full text-left p-3 hover:bg-primary-50 rounded-md transition-colors flex justify-between items-center group"
+                      >
+                        <span className="text-neutral-700 group-hover:text-primary-600">{t(link.titleKey)}</span>
+                        <span className="text-xs bg-neutral-100 text-neutral-500 px-2 py-0.5 rounded-full group-hover:bg-primary-100 group-hover:text-primary-600">
+                          {t(link.typeKey)}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Search Tips */}
+            <div className="p-4 bg-gray-50 border-t border-gray-100">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <kbd className="px-2 py-1 text-xs font-semibold text-gray-500 bg-white border border-gray-200 rounded">
+                  ⌘K
+                </kbd>
+                <span>{t("header_search_tip_search")}</span>
+                <kbd className="px-2 py-1 text-xs font-semibold text-gray-500 bg-white border border-gray-200 rounded ml-4">
+                  ESC
+                </kbd>
+                <span>{t("header_search_tip_close")}</span>
               </div>
             </div>
           </div>

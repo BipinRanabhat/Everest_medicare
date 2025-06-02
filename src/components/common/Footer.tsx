@@ -13,17 +13,20 @@ const Footer: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-6">
               <div className="bg-white p-2 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#4C1D95"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
                   <path d="M12 5 8.5 9.5"></path>
                   <path d="m12 5 3.5 4.5"></path>
-                  <path d="M15.5 9.5h.5"></path>
-                  <path d="M8.5 9.5H8"></path>
-                  <path d="M9 11.5v.5"></path>
-                  <path d="M15 11.5v.5"></path>
-                  <path d="M12 13v5"></path>
-                  <path d="M12 18h-1.5"></path>
-                  <path d="M12 18h1.5"></path>
                 </svg>
               </div>
               <span className="text-2xl font-bold text-white">Everest HomeCare</span>
